@@ -1,0 +1,3 @@
+module DPWM(clk,rst,dpwm_angle,dpwm_s,dpwm_sb);
+
+endmodule

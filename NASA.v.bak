@@ -1,0 +1,16 @@
+module NASA(clk,rst,dpwm_s,dpwm_sb);
+
+input clk;
+input rst;
+
+output [8:0] dpwm_s;
+output [8:0] dpwm_sb;
+
+DPWM_WRAPPER inst_dpwmwrapper(
+.clk(clk),
+.rst(rst),
+.dpwm_duty(dpwm_duty),
+.dpwm_s(dpwm_s),
+.dpwm_sb(dpwm_sb));
+
+endmodule
