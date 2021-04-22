@@ -1,0 +1,24 @@
+module RAMP(clk,rst,ramp_ref);
+
+input clk;	// input reference clock
+input rst;	// master reset
+
+output signed [9:0] ramp_ref;	// reference ramp
+
+reg signed [9:0] counter;	// incremental counter for ramp generation
+
+always@(posedge clk)	// update reference ramp at clock positive edge
+begin
+	if(rst == 0)	// reset
+	begin
+		counter <= 0;
+	end
+	else
+	begin
+		counter <= counter + 1;
+	end
+end
+
+assign ramp_ref = counter;
+
+endmodule

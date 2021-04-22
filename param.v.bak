@@ -1,0 +1,9 @@
+parameter signed [9:0] dpwm_angle_0 = -10'd450;	// phase angle for dpwm 0
+parameter signed [9:0] dpwm_angle_1 = -10'd350;	// phase angle for dpwm 1
+parameter signed [9:0] dpwm_angle_2 = -10'd250;	// phase angle for dpwm 2
+parameter signed [9:0] dpwm_angle_3 = -10'd150;	// phase angle for dpwm 3
+parameter signed [9:0] dpwm_angle_4 = -10'd50;	// phase angle for dpwm 4
+parameter signed [9:0] dpwm_angle_5 = 10'd50;	// phase angle for dpwm 5
+parameter signed [9:0] dpwm_angle_6 = 10'd150;	// phase angle for dpwm 6
+parameter signed [9:0] dpwm_angle_7 = 10'd250;	// phase angle for dpwm 7
+parameter signed [9:0] dpwm_angle_8 = 10'd350;	// phase angle for dpwm 8

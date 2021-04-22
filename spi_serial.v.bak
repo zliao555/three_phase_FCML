@@ -1,0 +1,106 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/07/2017 10:44:48 AM
+// Design Name: 
+// Module Name: spi_serial
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module SPI_Serial(
+        input wire clk; //input reference clock
+		input wire spi_clk,	//spi clock
+        input wire spi_cs,	//spi chip select
+        input wire spi_out, //from master
+        output reg [10:0]spi_rdata, 	//store in fpga
+    );
+    
+reg [4:0] CurrentState_p;
+
+
+initial begin
+	spi_in <= 1; 
+	spi_data_out <= 0;
+	CurrentState_p <= 8'd10;
+end
+
+always @ (posedge clk) begin 
+	if(spi_cs = 0) begin
+		always @(posedge spi_clk) begin 
+			case (CurrentState_p)
+			
+			8'd10: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd9: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd8: begin 
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+		 
+			8'd7: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			8'd6: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd5: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+
+			8'd4: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+
+			8'd3: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd2: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd1: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= CurrentState_p - 1'b1;
+			end
+			
+			8'd0: begin
+			spi_data_out[CurrentState_p] <= spi_out;
+			CurrentState_p <= 8'd11;
+			end
+			
+			endcase 
+		end
+	end
+end
+    
+
+    
+endmodule
