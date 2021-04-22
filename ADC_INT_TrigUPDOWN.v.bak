@@ -1,0 +1,34 @@
+module ADC_INT_TrigUPDOWN(clk,rst,dpwm_angle,dpwm_s,ramp_refo);
+
+// dpwm_duty must be fed in at positive clock edge so it is stable at negative clock edge
+// reset signal must be inserted at negative clock edge so the ramp initial values are loaded properly
+
+input clk;
+input rst;
+input unsigned [10:0] dpwm_duty;
+input unsigned [10:0] dpwm_angle;
+output dpwm_s;
+output ramp_refo [10:0];
+
+wire unsigned [10:0] ramp_ref;
+reg unsigned [10:0] o_dpwm_duty;
+
+// pipe positive edge
+RAMPUPDOWN inst_ramp(
+.clk(clk),
+.rst(rst),
+.dpwm_angle(dpwm_angle),
+.ramp_ref(ramp_ref));
+
+// pipe negative edge
+COMPADC inst_compADC(
+.clk(clk),
+.rst(rst),
+.ramp_ref(ramp_ref),
+.dpwm_duty(PRD - 4'd14),
+.dpwm(dpwm_s));
+
+// pipe positive edge
+assign ramp_refo = ramp_ref;
+
+endmodule

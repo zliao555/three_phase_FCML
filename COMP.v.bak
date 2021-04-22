@@ -1,0 +1,40 @@
+module COMP(clk,rst,ramp_ref,dpwm_duty,dpwm_angle,dpwm);
+
+input clk;	// input ref clock
+input rst;	// master reset
+input signed [9:0] ramp_ref;	// reference ramp
+input signed [9:0] dpwm_duty;	// dpwm phase duty
+input signed [9:0] dpwm_angle;	// dpwm phase angle
+
+output dpwm;	// dpwm
+
+reg dpwm_toggle; // temp register for dpwm toggling
+reg signed [9:0] ramp_angle; // phase shifted ramp 
+
+always@(negedge clk) // at negetive clock edge produce the new shifted ramp (reference ramp is generated at positive clock edge)
+begin
+	ramp_angle <= ramp_ref + dpwm_angle;	// add angle to reference ramp
+end
+
+always@(posedge clk)	// compare the duty cycle with the ramp at positive edge
+begin
+	if(rst == 0)
+	begin
+		dpwm_toggle <= 0;	// reset
+	end
+	else
+	begin
+		if(dpwm_duty > ramp_angle)
+		begin
+			dpwm_toggle <= 1;
+		end
+		else
+		begin
+			dpwm_toggle <= 0;
+		end
+	end
+end
+
+assign dpwm = dpwm_toggle;
+
+endmodule

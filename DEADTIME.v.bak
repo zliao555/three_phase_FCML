@@ -1,0 +1,77 @@
+module DEADTIME(clk,rst,dpwm,s,sb);
+
+input clk;	// input reference clock
+input rst;	// master reset
+input dpwm; // input dpwm
+
+output dpwm_s;	// output dpwm
+output dpwm_sb;	// output complement dpwm
+
+reg [24:0] delay_0;	// delay line
+reg [24:0] delay_1;	// delay line
+
+// using non-overlap clock generator with NAND gate
+
+always@(negedge clk)	// latch delay at the clock negative edge
+begin
+	delay_0[24] <= delay_0[23];
+	delay_0[23] <= delay_0[22];
+	delay_0[22] <= delay_0[21];
+	delay_0[21] <= delay_0[20];
+	delay_0[20] <= delay_0[19];
+	delay_0[19] <= delay_0[18];
+	delay_0[18] <= delay_0[17];
+	delay_0[17] <= delay_0[16];
+	delay_0[16] <= delay_0[15];
+	delay_0[15] <= delay_0[14];
+	delay_0[14] <= delay_0[13];
+	delay_0[13] <= delay_0[12];
+	delay_0[12] <= delay_0[11];
+	delay_0[11] <= delay_0[10];
+	delay_0[10] <= delay_0[9]; 
+	delay_0[9] <= delay_0[8];
+	delay_0[8] <= delay_0[7];
+	delay_0[7] <= delay_0[6];
+	delay_0[6] <= delay_0[5];
+	delay_0[5] <= delay_0[4];
+	delay_0[4] <= delay_0[3];
+	delay_0[3] <= delay_0[2];
+	delay_0[2] <= delay_0[1];
+	delay_0[1] <= delay_0[0]; 
+	delay_0[0] <= ~((dpwm) & (delay_1[24]));	// choose delay value for deadtime (can be unsymmetrical)
+	
+end
+
+always@(negedge clk)	// latch delay at the clock negative edge
+begin
+	delay_1[24] <= delay_1[23];
+	delay_1[23] <= delay_1[22];
+	delay_1[22] <= delay_1[21];
+	delay_1[21] <= delay_1[20];
+	delay_1[20] <= delay_1[19];
+	delay_1[19] <= delay_1[18];
+	delay_1[18] <= delay_1[17];
+	delay_1[17] <= delay_1[16];
+	delay_1[16] <= delay_1[15];
+	delay_1[15] <= delay_1[14];
+	delay_1[14] <= delay_1[13];
+	delay_1[13] <= delay_1[12];
+	delay_1[12] <= delay_1[11];
+	delay_1[11] <= delay_1[10];
+	delay_1[10] <= delay_1[9]; 
+	delay_1[9] <= delay_1[8];
+	delay_1[8] <= delay_1[7];
+	delay_1[7] <= delay_1[6];
+	delay_1[6] <= delay_1[5];
+	delay_1[5] <= delay_1[4];
+	delay_1[4] <= delay_1[3];
+	delay_1[3] <= delay_1[2];
+	delay_1[2] <= delay_1[1];
+	delay_1[1] <= delay_1[0];
+	delay_1[0] <= ~((~dpwm) & (delay_0[24]));	// choose delay value for deadtime (can be unsymmetrical)
+end
+
+assign dpwm_s = ~delay_0;
+assign dpwm_sb = ~delay_1;
+
+endmodule
